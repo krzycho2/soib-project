@@ -6,7 +6,6 @@ MIN_MAX_COORDS = [-1,1]
 
 def calculate_ber_by_mer(mer, qam_order, correct_point=[0.75, 0.75]):
     sigma = calculate_sigma(mer, qam_order)
-    print('sigma:',sigma)
     return calculate_ber_integral(sigma, qam_order, correct_point)
 
 def calculate_sigma(mer, qam_order):
@@ -20,9 +19,9 @@ def calculate_ber_integral(sigma, qam_order, correct_point):
     inner_area = nquad(lambda x,y: gauss2d_pdf(x,y,mx,my,sigma), [[x0,x1], [y0,y1]], opts=opts)
     error = inner_area[1]
     ber = 1- inner_area[0]
-    print(f'Error: {error}')
-    if error > ber:
-        print('Uwaga: Błąd większy niż BER')
+    # print(f'Error: {error}')
+    # if error > ber:
+    #     print('Uwaga: Błąd większy niż BER')
 
     return ber, error
 
@@ -33,7 +32,7 @@ def plot_all():
     for qam_order in qam_orders:
         bers = []
         for mer in mers:
-            ber = calculate_ber_by_mer(mer, qam_order)
+            ber = calculate_ber_by_mer(mer, qam_order)[0]
             bers.append(ber)
         bers_for_qam.append(bers)
 
