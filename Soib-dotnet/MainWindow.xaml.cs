@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,11 +26,40 @@ namespace Soib_dotnet
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Calc_ber_button_Click(object sender, RoutedEventArgs e)
         {
-            var pythonExe = new PythonExec();
-            string output = pythonExe.Execute();
-            Console.Write(output);
+            if (!double.TryParse(Mer_textbox.Text, out double mer))
+            {
+                MessageBox.Show("Wartość MER musi być liczbą.");
+                return;
+            }
+
+            if(!int.TryParse(QamOrder_textbox.Text, out int qamOrder))
+            {
+                MessageBox.Show("Wartość QAM musi być liczbą.");
+                return;
+            }
+
+            if (qamOrder != 4 && qamOrder != 16 && qamOrder != 64 && qamOrder != 128 && qamOrder != 256)
+            {
+                MessageBox.Show("Wartość QAM musi być potęgą liczby 2.");
+                return;
+            }
+                
+            ErrorWarning_Textblock.Visibility = Visibility.Hidden;    
+            var calc = new Calc();
+            var outputDict = calc.CalcBER(mer, qamOrder);
+            Ber_result_textblock.Text = outputDict["ber"].ToString("#.##E+0");
+            Error_textblock.Text = outputDict["error"].ToString("#.##E+0");
+
+            if(outputDict["ber"] < outputDict["error"])
+                ErrorWarning_Textblock.Visibility = Visibility.Visible;
+        }
+
+        private void Plot_button_Click(object sender, RoutedEventArgs e)
+        {
+            var calc = new Calc();
+            calc.MakePlots();
         }
     }
 }

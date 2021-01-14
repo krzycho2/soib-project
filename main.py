@@ -14,7 +14,7 @@ if __name__ == "__main__":
         if not (args.mer or args.qam_order):
             raise Exception('No argument for mer lub qam-order')
 
-        if not args.qam_order in [4,16,64,128]:
+        if not args.qam_order in [4,16,64,128,256]:
             raise Exception('qam-order must be a power of 2')
         
         ber, error = calculate_ber_by_mer(args.mer, args.qam_order)

@@ -5,9 +5,80 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Soib_dotnet"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="465,160,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        Title="SOIB - Program" Height="450" Width="680" ResizeMode="NoResize">
+    <Grid Background="LightGray">
+        <DockPanel Margin="30">
+
+            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="0,5" Text="Witamy w programie pozwalającym na obliczenie BER w zależności od parametrów MER oraz wartościowości modulacji." VerticalAlignment="Top" DockPanel.Dock="Top"/>
+
+            <!--//Plotting-->
+            <Border CornerRadius="5" Background="White" BorderThickness="0.1" DockPanel.Dock="Top" Margin="0,5,0,0">
+                <Border.Effect>
+                    <DropShadowEffect/>
+                </Border.Effect>
+                <DockPanel Margin="10,0,10,0">
+                    <TextBlock TextAlignment="Center"  TextWrapping="Wrap" DockPanel.Dock="Top">
+                    W celu utworzenia wykresu prezentującego zależność BER (MER) dla różnych wartościowości, naciśnij przycisk &quot;Utwórz wykres&quot;. Wykres zostanie otwarty w oknie środowiska Python Matplotlib.
+                    </TextBlock>
+                    <Button x:Name="Plot_button" Content="Utwórz wykres" HorizontalAlignment="Center" Width="185" Click="Plot_button_Click" Margin="0,20" Height="25" DockPanel.Dock="Top"/>
+                </DockPanel>
+            </Border>
+
+            <Border CornerRadius="5" Background="White" BorderThickness="0.1" Margin="0,10,0,0" DockPanel.Dock="Bottom">
+                <Border.Effect>
+                    <DropShadowEffect/>
+                </Border.Effect>
+
+                <DockPanel Margin="5">
+                    <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center">
+                        W celu obliczenia BER, podaj parametry MER oraz wartościowość modulacji, a następnie naciśnij przycisk <LineBreak/>"Oblicz BER."
+                    </TextBlock>
+                    <DockPanel DockPanel.Dock="Left" Margin="0,10,0,0">
+
+                        <!--MER value-->
+                        <DockPanel DockPanel.Dock="Top" Margin="0,5">
+                            <Label Content="MER (w dB)" Margin="0,0,20,0"/>
+                            <TextBox x:Name="Mer_textbox"  Text="0" DockPanel.Dock="Right" HorizontalAlignment="Right" Width="30" TextAlignment="Right" />
+                        </DockPanel>
+
+                        <!--QAM Order-->
+                        <DockPanel DockPanel.Dock="Top" Margin="0,5">
+                            <Label Content="Wartościowość QAM (wartość M)" DockPanel.Dock="Left" Margin="0,0,20,0"/>
+                            <TextBox x:Name="QamOrder_textbox" TextWrapping="Wrap" Text="16" HorizontalAlignment="Right" DockPanel.Dock="Right" Width="30" TextAlignment="Right"/>
+                        </DockPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,5">
+
+                        </StackPanel>
+
+                        <Button x:Name="Calc_ber_button" Content="Oblicz BER"  Click="Calc_ber_button_Click" DockPanel.Dock="Top" Width="70" Height="25" Margin="0,0,0,10"/>
+
+                    </DockPanel>
+
+                    <DockPanel  DockPanel.Dock="Right" HorizontalAlignment="Right"  Margin="0,10,10,0">
+                        <!--BER value-->
+                        <DockPanel DockPanel.Dock="Top" Margin="0,5">
+                            <TextBlock  TextWrapping="Wrap" Text="BER"/>
+                            <TextBlock x:Name="Ber_result_textblock" TextWrapping="Wrap" HorizontalAlignment="Right" Width="70" Text="0" TextAlignment="Right"/>
+                        </DockPanel>
+
+                        <!--Error-->
+                        <DockPanel DockPanel.Dock="Top" Margin="0,5">
+                            <TextBlock  TextWrapping="Wrap" Text="Błąd"/>
+                            <TextBlock x:Name="Error_textblock" HorizontalAlignment="Right" Width="70" Text="0" TextAlignment="Right"/>
+                        </DockPanel>
+
+                        <!--Error info-->
+                        <Border x:Name="ErrorWarning_Textblock" Background="#FFEA6262" Visibility="Hidden" Margin="0,5" Height="25">
+                            <TextBlock  DockPanel.Dock="Bottom" Text="Uwaga! Błąd większy niż wartość BER." Foreground="#FFF3E5E5"  Margin="3"></TextBlock>
+                        </Border>
+
+                    </DockPanel>
+
+                </DockPanel>
+            </Border>
+        </DockPanel>
+        <TextBlock Text="Projekt i wykonanie: Krzysztof Krupiński, 2021" Margin="0,395,10,0" HorizontalAlignment="Right"/>
 
     </Grid>
+
 </Window>
