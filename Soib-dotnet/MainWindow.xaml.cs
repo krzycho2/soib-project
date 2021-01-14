@@ -24,5 +24,12 @@ namespace Soib_dotnet
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var pythonExe = new PythonExec();
+            string output = pythonExe.Execute();
+            Console.Write(output);
+        }
     }
 }

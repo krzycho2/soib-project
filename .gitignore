@@ -1,5 +1,10 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
 /Soib-dotnet/bin/Debug
+/Soib-dotnet/packages
+/Soib-dotnet/obj/Debug
+/Soib-dotnetTests/obj/Debug
+/Soib-dotnetTests/bin/Debug
+/Soib-dotnetTests/Properties
