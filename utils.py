@@ -19,16 +19,12 @@ def calculate_ber_integral(sigma, qam_order, correct_point):
     inner_area = nquad(lambda x,y: gauss2d_pdf(x,y,mx,my,sigma), [[x0,x1], [y0,y1]], opts=opts)
     error = inner_area[1]
     ber = 1- inner_area[0]
-    # print(f'Error: {error}')
-    # if error > ber:
-    #     print('Uwaga: Błąd większy niż BER')
-
     return ber, error
 
 def plot_all():
     mers = np.linspace(1,20)
     bers_for_qam = []
-    qam_orders = [4,16,64]
+    qam_orders = [4,16,64,128,256]
     for qam_order in qam_orders:
         bers = []
         for mer in mers:
@@ -38,9 +34,11 @@ def plot_all():
 
     epsilon_line = 1e-13 *np.ones(len(mers))
 
-    plt.plot(mers, bers_for_qam[0], 'yo', label='QAM-4')
-    plt.plot(mers, bers_for_qam[1], 'bo', label='QAM-16')
-    plt.plot(mers, bers_for_qam[2], 'go', label='QAM-64')
+    plt.plot(mers, bers_for_qam[0], 'y', label='QAM-4')
+    plt.plot(mers, bers_for_qam[1], 'b', label='QAM-16')
+    plt.plot(mers, bers_for_qam[2], 'g', label='QAM-64')
+    plt.plot(mers, bers_for_qam[3], 'k', label='QAM-128')
+    plt.plot(mers, bers_for_qam[4], 'm', label='QAM-256')
     plt.plot(mers, epsilon_line, 'r--', label='Minimalna dokładność (błąd bezwzględny)')
     plt.xlabel('MER [dB]')
     plt.ylabel('BER')
@@ -55,7 +53,6 @@ def get_boundary(point, qam_order):
     N = int(np.sqrt(qam_order)) # 16 -> 4
     square_len_per_bit = (MIN_MAX_COORDS[1] - MIN_MAX_COORDS[0]) / N
     indent = square_len_per_bit / 2
-
     return point[0]-indent, point[0]+indent, point[1]-indent, point[1]+indent
 
 def get_qam_power(qam_order):
@@ -63,9 +60,9 @@ def get_qam_power(qam_order):
     return np.sum(np.array(points)**2) / len(points)
 
 def get_qam_points(qam_order):
-    if not qam_order in [4,16,64,128]:
+    if not qam_order in [4,16,64,128,256]:
         print('qam_order is not a power of 2!')
-        return -1
+        raise Exception("qam_order must be a power of 2!")
     N = int(np.sqrt(qam_order)) # 16 -> 4
     square_len_per_bit = (MIN_MAX_COORDS[1] - MIN_MAX_COORDS[0]) / N
     indent_from_boundary = square_len_per_bit / 2
